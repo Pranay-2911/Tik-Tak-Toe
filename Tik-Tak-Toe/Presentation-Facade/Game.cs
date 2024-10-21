@@ -1,4 +1,5 @@
 ﻿using System;
+using Tik_Tak_Toe.Exceptions;
 
 namespace Tik_Tak_Toe.Models
 {
@@ -32,24 +33,36 @@ namespace Tik_Tak_Toe.Models
 
             while (!board.IsBoardFull())
             {
-                bool validMove = false;
-
-                while (!validMove)
+                try
                 {
-                    validMove = currentPlayer.PlayGame(board);
+                    currentPlayer.PlayGame(board); 
+                    PrintBoard(board);
+
+                    if (resultAnalyser.CheckAll(board))
+                    {
+                        Console.WriteLine($"Player {currentPlayer.GetMarkType()} wins!");
+                        return;
+                    }
+
+                    
+                    currentPlayer = (currentPlayer == player1) ? player2 : player1;
                 }
-
-                PrintBoard(board);
-
-                if (resultAnalyser.CheckAll(board))
+                catch (EnterValidNumberException e)
                 {
-                    Console.WriteLine($"Player {currentPlayer.GetMarkType()} wins!");
-                    return;
+                    Console.WriteLine(e.Message); 
                 }
-
-                currentPlayer = (currentPlayer == player1) ? player2 : player1;
+                catch (InvalidPositionException e)
+                {
+                    Console.WriteLine(e.Message); 
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message); 
+                }
             }
             Console.WriteLine("It's a draw!");
         }
+
+      
     }
 }

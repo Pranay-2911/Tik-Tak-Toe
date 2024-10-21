@@ -18,40 +18,21 @@ namespace Tik_Tak_Toe.Models
              type = mark;
         }
 
-        public bool PlayGame(Board board)
+        public void PlayGame(Board board)
         {
-            try
+            Console.WriteLine($"Player {type}, enter the position (0-8):");
+            int position = int.Parse(Console.ReadLine());
+
+            CheckValidPosition(position);
+
+            bool isMoveValid = board.SetCellMark(position, type);
+
+            if (!isMoveValid)
             {
-                Console.WriteLine($"Player {type}, enter the position (0-8):");
-                int position = int.Parse(Console.ReadLine());
-
-                
-                CheckValidPosition(position);
-
-                
-                bool isMoveValid = board.SetCellMark(position, type);
-
-                
-                if (!isMoveValid)
-                {
-                    Console.WriteLine("This position is already occupied! Try again.");
-                    return false; 
-                }
-
-                return true; 
+                throw new InvalidPositionException("This position is already occupied! Try again."); // Throw exception for invalid move
             }
-            catch (EnterValidNumberException vp)
-            {
-                Console.WriteLine(vp.Message);
-                return false; 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine( e.Message);
-                return false; 
-            }
-
         }
+
         public void CheckValidPosition(int position)
         {
             if (position < 0 || position >= 9)
