@@ -15,8 +15,9 @@ namespace Tik_Tak_Toe
              
             ResultAnalyser resultAnalyser = new ResultAnalyser();
 
-            game.PrintBoard(board);
+            
             game.StartGame(player1 , player2, board, resultAnalyser);
+            
         }
     }
 }

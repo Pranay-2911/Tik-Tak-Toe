@@ -33,28 +33,29 @@ namespace Tik_Tak_Toe.Models
         {
             for (int i = 0; i < cell.Length; i++)
             {
-                Console.Write(GetCellMark(i) == MarkType.EMPTY ? "_" : GetCellMark(i).ToString());
+                Console.Write(GetCellMark(i) == MarkType.EMPTY ? " " : GetCellMark(i));
                 if ((i + 1) % 3 == 0) Console.WriteLine();
                 else Console.Write(" | ");
             }
             Console.WriteLine();
         }
 
-        public void PutMark(Cell cell, MarkType type)
+        public void ResetBoard()
         {
-
+            for (int i = 0; i < cell.Length; i++)
+            {
+                cell[i] = new Cell();
+            }
         }
 
-        public void SetCellMark(int position, MarkType mark)
+        public bool SetCellMark(int position, MarkType mark)
         {
             if (cell[position].GetMark() == MarkType.EMPTY)
             {
                 cell[position].SetMark(mark);
+                return true;
             }
-            else
-            {
-                Console.WriteLine("Cell is ocupied");
-            }
+            return false;
         }
 
         public MarkType GetCellMark(int position)
